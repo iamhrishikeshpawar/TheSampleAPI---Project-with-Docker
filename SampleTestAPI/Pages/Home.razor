@@ -1,0 +1,28 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
+@using SampleTestAPIUI.Models
+@using System.Net.Http.Json
+
+@inject HttpClient http
+
+<PageTitle>Courses</PageTitle>
+
+<h1>ALL COURSES</h1>
+
+@if(courses is not null)
+{
+    @foreach(var c in courses)
+    {
+        <a href="@c.CourseUrl">
+            <img width=" 300" src=" @c.CourseImage"/>
+        </a>
+    }
+}
+
+@code{
+    private List<CourseModel>? courses; 
+    protected override async Task OnInitializedAsync()
+    {
+        courses = await http.GetFromJsonAsync<List<CourseModel >> ("https://localhost:7072/courses");
+    }
+}
